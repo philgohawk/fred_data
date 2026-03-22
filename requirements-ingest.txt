@@ -1,0 +1,3 @@
+# Extra deps for ingest.py (run locally: pip install -r requirements.txt -r requirements-ingest.txt)
+pyfredapi
+snowflake-connector-python

@@ -15,8 +15,8 @@ One-time pipeline to ingest Federal Reserve Economic Data (FRED) into Snowflake.
 python -m venv venv
 source venv/bin/activate   # Windows: venv\Scripts\activate
 
-# Install dependencies
-pip install -r requirements.txt
+# Install dependencies (app + ingest)
+pip install -r requirements.txt -r requirements-ingest.txt
 
 # Copy template and add your keys (the script loads from .env)
 cp .env.example .env
