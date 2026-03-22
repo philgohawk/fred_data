@@ -1,0 +1,8 @@
+pyfredapi
+snowflake-connector-python
+pandas
+python-dotenv
+streamlit
+trino
+pystarburst
+plotly
