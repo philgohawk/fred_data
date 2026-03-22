@@ -6,3 +6,5 @@ streamlit
 trino
 pystarburst
 plotly
+# Pin zstandard>=0.25 for pre-built wheels (0.23 requires cffi build)
+zstandard>=0.25

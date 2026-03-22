@@ -1,0 +1,2 @@
+# System libs for building cffi (required by zstandard→trino/pystarburst)
+libffi-dev
