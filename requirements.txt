@@ -1,6 +1,7 @@
 pandas
 python-dotenv
 streamlit
+altair>=4.0,<6
 trino
 pystarburst
 plotly
