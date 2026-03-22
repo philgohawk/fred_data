@@ -89,8 +89,19 @@ The `app.py` dashboard federates FRED data (from Snowflake) with BurstBank produ
 | `STARBURST_USER` | Yes | Username with role (e.g. `user@burstbank.com/accountadmin`) |
 | `STARBURST_PASSWORD` | Yes | Starburst password |
 
-### Run
+### Run locally
 
 ```bash
 streamlit run app.py
 ```
+
+### Deploy to Streamlit Cloud
+
+Python 3.14 is not yet supported by Altair/Streamlit dependencies. **Set Python 3.11 or 3.12** in the deployment UI:
+
+1. In [Streamlit Cloud](https://share.streamlit.io), open your app or create a new deployment
+2. Click **Advanced settings**
+3. Choose **Python 3.11** (or 3.12) from the Python version dropdown
+4. Save and Deploy
+
+If the app was already deployed with a different Python version, delete it and redeploy with the correct version selected.
