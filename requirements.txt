@@ -1,8 +1,6 @@
-pandas
+streamlit>=1.40
+pystarburst>=0.10.0
+pandas>=2.2
 python-dotenv
-streamlit
-altair>=4.0,<6
-trino
-pystarburst
 plotly
-zstandard>=0.25
+zstandard>=0.23,<0.24

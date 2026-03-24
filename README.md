@@ -97,11 +97,6 @@ streamlit run app.py
 
 ### Deploy to Streamlit Cloud
 
-Python 3.14 is not yet supported by Altair/Streamlit dependencies. **Set Python 3.11 or 3.12** in the deployment UI:
+`requirements.txt` pins **Streamlit ≥1.40** and **PyStarburst ≥0.10** so the resolver does not fall back to PyStarburst 0.7 (which pulled Streamlit 1.19 and broke on newer Python). PyStarburst 0.11 supports Python 3.10–3.13; on **Python 3.14**, pip installs **0.10.x** instead.
 
-1. In [Streamlit Cloud](https://share.streamlit.io), open your app or create a new deployment
-2. Click **Advanced settings**
-3. Choose **Python 3.11** (or 3.12) from the Python version dropdown
-4. Save and Deploy
-
-If the app was already deployed with a different Python version, delete it and redeploy with the correct version selected.
+If installs still fail on the default runtime, use **Advanced settings** → **Python 3.12** or **3.13**, then redeploy.
