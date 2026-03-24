@@ -1,7 +1,7 @@
 """
 Mortgage Portfolio Stability Index - Streamlit app
 Federates FRED data (Snowflake) with BurstBank product profile via Starburst Galaxy.
-Uses PyStarburst (Starburst's official Python client) per https://docs.starburst.io/clients/python/pystarburst.html
+Uses the Trino Python client (Galaxy speaks Trino); PyStarburst relies on Pydantic v1 and fails on Python 3.14+.
 """
 
 import os
@@ -10,12 +10,12 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 import trino.auth
+import trino.dbapi
 from dotenv import load_dotenv
-from pystarburst import Session
 
 load_dotenv()
 
-# Connection configuration from env - use exact values from Partner connect → PyStarburst tile
+# Connection configuration from env - use exact values from Partner connect → Trino / PyStarburst tile
 _raw_host = os.getenv("STARBURST_HOST", "").strip()
 host = _raw_host.removeprefix("https://").removeprefix("http://").split("/")[0]
 if host.endswith(".galaxy.starburst.io") and ".trino." not in host:
@@ -25,22 +25,25 @@ password = os.getenv("STARBURST_PASSWORD", "")
 
 
 def run_query(query: str) -> pd.DataFrame:
-    """Execute SQL via PyStarburst Session and return a pandas DataFrame."""
-    db_params = {
-        "host": host,
-        "port": 443,
-        "http_scheme": "https",
-        "user": username,
-        "catalog": "sample",
-        "schema": "burstbank",
-        "auth": trino.auth.BasicAuthentication(username, password),
-    }
-    session = Session.builder.configs(db_params).create()
+    """Execute SQL via Trino DB-API and return a pandas DataFrame (same coordinator as Galaxy)."""
+    conn = trino.dbapi.connect(
+        host=host,
+        port=443,
+        http_scheme="https",
+        user=username,
+        catalog="sample",
+        schema="burstbank",
+        auth=trino.auth.BasicAuthentication(username, password),
+    )
     try:
-        return session.sql(query).to_pandas()
+        cur = conn.cursor()
+        cur.execute(query)
+        columns = [d[0] for d in (cur.description or ())]
+        rows = cur.fetchall()
+        return pd.DataFrame(rows, columns=columns)
     finally:
-        session.close()
-
+        conn.close()
+ 
 
 # Page setup
 st.set_page_config(page_title="Burstbank Stability Index", layout="wide")

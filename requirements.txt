@@ -1,6 +1,5 @@
 streamlit>=1.40
-pystarburst>=0.10.0
 pandas>=2.2
 python-dotenv
 plotly
-zstandard>=0.23,<0.24
+trino>=0.330

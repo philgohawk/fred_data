@@ -97,6 +97,4 @@ streamlit run app.py
 
 ### Deploy to Streamlit Cloud
 
-`requirements.txt` pins **Streamlit ≥1.40** and **PyStarburst ≥0.10** so the resolver does not fall back to PyStarburst 0.7 (which pulled Streamlit 1.19 and broke on newer Python). PyStarburst 0.11 supports Python 3.10–3.13; on **Python 3.14**, pip installs **0.10.x** instead.
-
-If installs still fail on the default runtime, use **Advanced settings** → **Python 3.12** or **3.13**, then redeploy.
+The app uses the **Trino Python client** against Galaxy (not PyStarburst), because PyStarburst still loads **Pydantic v1** internally and that breaks on **Python 3.14**. `requirements.txt` pins **Streamlit ≥1.40** so installs do not fall back to very old Streamlit.
